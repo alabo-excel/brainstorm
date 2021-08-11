@@ -2,8 +2,12 @@
   <div>
     <DashboardHeader />
     <main>
-      <div class="row justify-content-center">
-        <div></div>
+      <div
+        class="row justify-content-center d-flex text-center mt-5">
+          <div
+            class="p-2 m-2 art" v-for="course in courses" :key="course.id">
+            {{ course.courseName }}
+        </div>
       </div>
     </main>
     <DashboardNav />
@@ -13,36 +17,98 @@
 import DashboardHeader from "@/components/DashboardHeader.vue";
 import DashboardNav from "@/components/DashboardNav.vue";
 
-import { onMounted } from "vue";
-import { ref } from "vue";
+// import { onMounted } from "vue";
+// import { ref } from "vue";
 
 export default {
   components: {
     DashboardHeader,
     DashboardNav,
   },
-  setup() {
-    let arts = ref(null);
-    let science = ref(null);
-    onMounted(() => {
-      fetch(
+  data () {
+    return {
+      arts: [],
+      sciences: [],
+      courses: [],
+      sortedCourses: []
+    }
+  },
+  mounted () {
+   fetch(
         "https://brainstorm-app-io.herokuapp.com/api/course/get-arts-courses"
       )
         .then((response) => response.json())
         .then((data) => {
-          arts.value = data.courses;
-          console.log(arts);
+          this.arts = data.courses;
+          // console.log(arts);
         });
       fetch(
         "https://brainstorm-app-io.herokuapp.com/api/course/get-sciences-courses"
       )
         .then((response) => response.json())
         .then((data) => {
-          science.value = data.courses;
-          console.log(science);
+          this.sciences = data.courses;
+          // console.log(science);
         });
-    });
-    return { arts, science };
   },
-};
+  watch: {
+    sciences () {
+      const result = this.sciences.concat(this.arts)
+      this.courses = this.shuffle(result)
+      console.log(result)
+    }
+  },
+  methods: {
+     shuffle(array) {
+      let currentIndex = array.length,  randomIndex;
+
+      // While there remain elements to shuffle...
+      while (0 !== currentIndex) {
+
+        // Pick a remaining element...
+        randomIndex = Math.floor(Math.random() * currentIndex);
+        currentIndex--;
+
+        // And swap it with the current element.
+        [array[currentIndex], array[randomIndex]] = [
+          array[randomIndex], array[currentIndex]];
+      }
+
+      return array;
+    }
+  }
+  // setup() {
+  //   let arts = ref([]);
+  //   let sciences = ref(null);
+  //   let courses = ref(null)
+  //   onMounted(() => {
+  //     fetch(
+  //       "https://brainstorm-app-io.herokuapp.com/api/course/get-arts-courses"
+  //     )
+  //       .then((response) => response.json())
+  //       .then((data) => {
+  //         arts.value = data.courses;
+  //         // console.log(arts);
+  //       });
+  //     fetch(
+  //       "https://brainstorm-app-io.herokuapp.com/api/course/get-sciences-courses"
+  //     )
+  //       .then((response) => response.json())
+  //       .then((data) => {
+  //         sciences.value = data.courses;
+  //         // console.log(science);
+  //       });
+  //   courses.value = arts.value.concat(sciences.value)
+  //   console.log(courses.value)
+  //   });
+  //   return { arts, sciences, courses };
+  // }
+}
 </script>
+<style scoped>
+.art {
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+  border-radius: 10px;
+  width: 30%;
+}
+</style>

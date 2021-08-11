@@ -22,7 +22,9 @@
             <input class="p-2" type="text" placeholder="Password" />
           </div>
           <div class="my-4">
-            <input class="p-2 btn" type="button" value="LOGIN" /> <br />
+            <router-link to="/universities">
+              <input class="p-2 btn" type="button" value="LOGIN" /> <br />
+            </router-link>
             <span
               >Dont have an account?
               <router-link to="/signup">Signup</router-link></span
@@ -63,10 +65,10 @@ input {
 input:focus {
   outline: none;
 }
-a{
+a {
   color: #ceb32a;
 }
-span{
+span {
   font-size: 12px;
 }
 .btn {

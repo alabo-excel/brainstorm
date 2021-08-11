@@ -60,7 +60,7 @@ img {
 }
 .overlay {
   position: absolute;
-  top: 0;
+  top: 50px;
   width: 50%;
   height: 100vh;
   background: #011627;
@@ -107,7 +107,7 @@ span {
     display: none;
   }
   input {
-    width: 100%;
+    width: 90%;
   }
 }
 </style>
