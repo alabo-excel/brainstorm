@@ -2,7 +2,7 @@
   <div>
     <DashboardHeader />
     <main>
-      <div v-if="loading == true" class="col-lg-1 mt-5 mx-auto">
+      <div v-if="loading == true" class="col-lg-1 mt-5 mx-auto text-center">
         <div
           class="spinner-grow"
           style="width: 3rem; height: 3rem;"
@@ -58,13 +58,13 @@ export default {
     let loading = ref(false);
     let search = ref("");
     onMounted(() => {
-      loading = true;
+      loading.value = true;
       fetch("https://nigerian-universities.herokuapp.com")
         .then((response) => response.json())
         .then((data) => {
           universities.value = data;
           // console.log(universities);
-          loading = false;
+          loading.value = false;
           // console.log(loading)
         });
     });

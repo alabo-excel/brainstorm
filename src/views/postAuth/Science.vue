@@ -1,5 +1,14 @@
 <template>
   <div class="m-3">
+    <div v-if="loading == true" class="col-lg-1 mt-5 mx-auto text-center">
+        <div
+          class="spinner-grow"
+          style="width: 3rem; height: 3rem;"
+          role="status"
+        >
+          <span class="visually-hidden">Loading...</span>
+        </div>
+      </div>
     <router-link to="/courses">
       <div class="px-3 m-3 back">
         <svg
@@ -83,7 +92,9 @@ export default {
   setup() {
     let arts = ref(null);
     let count = ref(0);
+    let loading = ref(false);
     onMounted(() => {
+      loading.value = true;
       fetch(
         "https://brainstorm-app-io.herokuapp.com/api/course/get-sciences-courses"
       )
@@ -91,13 +102,14 @@ export default {
         .then((data) => {
           arts.value = data.courses;
           //   console.log(arts);
+          loading.value = false;
         });
     });
     function changeIndex(index) {
       count.value = index;
       //   console.log(count.value);
     }
-    return { arts, changeIndex, count };
+    return { arts, changeIndex, count, loading };
   },
 };
 </script>

@@ -2,6 +2,15 @@
   <div>
     <DashboardHeader />
     <main>
+      <div v-if="loading == true" class="col-lg-1 mt-5 mx-auto text-center">
+        <div
+          class="spinner-grow"
+          style="width: 3rem; height: 3rem;"
+          role="status"
+        >
+          <span class="visually-hidden">Loading...</span>
+        </div>
+      </div>
       <div
         class="row justify-content-center d-flex text-center mt-5">
           <div
@@ -30,10 +39,12 @@ export default {
       arts: [],
       sciences: [],
       courses: [],
-      sortedCourses: []
+      sortedCourses: [],
+      loading: false
     }
   },
   mounted () {
+    this.loading = true
    fetch(
         "https://brainstorm-app-io.herokuapp.com/api/course/get-arts-courses"
       )
@@ -49,6 +60,7 @@ export default {
         .then((data) => {
           this.sciences = data.courses;
           // console.log(science);
+          this.loading = false
         });
   },
   watch: {
